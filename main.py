@@ -1,7 +1,10 @@
 import os
+import time
 
 import requests
 from datetime import date
+
+import schedule as schedule
 
 non_url_safe = ['"', '#', '$', '%', '&', '+',
                 ',', '/', ':', ';', '=', '?',
@@ -55,4 +58,8 @@ def slugify(text):
     return text
 
 
-write_new_readme()
+schedule.every(7).hours.do(write_new_readme())
+
+while True:
+    schedule.run_pending()
+    time.sleep(3600)
