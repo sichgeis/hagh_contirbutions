@@ -1,5 +1,6 @@
 import os
 import time
+from random import random
 
 import requests
 from datetime import date
@@ -57,6 +58,28 @@ def slugify(text):
     text = u'_'.join(text.split())
     return text
 
+
+def write_n_readme():
+    time.sleep(random()*100)
+    # commit
+    time.sleep(random()*100)
+    # commit
+    time.sleep(random()*100)
+    # commit
+    time.sleep(random()*100)
+    # commit
+    time.sleep(random()*100)
+    # commit
+    time.sleep(random()*100)
+    # commit
+    time.sleep(random()*100)
+    # commit
+    time.sleep(random()*100)
+    # commit
+    time.sleep(random()*100)
+    # commit
+    time.sleep(random()*100)
+    # commit
 
 schedule.every().day().at("10:30").do(write_new_readme)
 
