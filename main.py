@@ -58,7 +58,7 @@ def slugify(text):
     return text
 
 
-schedule.every(7).hours.do(write_new_readme)
+schedule.every().day().at("10:30").do(write_new_readme);
 
 while True:
     schedule.run_pending()
