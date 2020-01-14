@@ -76,8 +76,6 @@ def write_n_readme():
     # commit
     time.sleep(random()*100)
     # commit
-    time.sleep(random()*100)
-    # commit
 
 schedule.every().day().at("10:30").do(write_new_readme)
 
