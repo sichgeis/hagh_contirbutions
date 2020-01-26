@@ -20,10 +20,14 @@ hackernews = HackernewsWrapper()
 
 
 def write_pixel():
+    print("running daily job")
     count = contributionsmap.get_count_by_date(date.today())
+    print("write a pixel with value " + str(count))
+    print("get the list of top news items")
     id_list = hackernews.get_top_items()
 
     for i in range(count):
+        print("write item number " + str(i) + " of " + str(count) + " items")
         item_dict = hackernews.get_item(id_list[count - i - 1])
         write_new_readme(item_dict)
         time.sleep(randrange(0, 3600))
@@ -66,7 +70,7 @@ def slugify(text):
     text = u'_'.join(text.split())
     return text
 
-print("scheduling the write pixel task every day at 10:30")
+print("scheduling the write pixel task every day at 10:30 utc")
 schedule.every().day.at('10:30').do(write_pixel)
 
 while True:
