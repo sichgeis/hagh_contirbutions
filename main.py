@@ -32,14 +32,19 @@ def write_pixel():
 def write_new_readme(item_dict):
     title = item_dict.get("title")
     url = item_dict.get("url")
+    print("inspecting item with title " + title + " and URL " + url)
+    print("creating rst file")
     text = create_rst_file(title, url)
     today = date.today().strftime("%Y-%m-%d")
 
+    print("copying the new item to the archive")
     with open("archive/" + today + "--" + slugify(title) + ".rst", "w") as f:
         f.write(text)
+    print("write the new readme")
     with open("README.rst", "w") as f:
         f.write(text)
 
+    print("commit changes to github")
     os.system('git add archive/*')
     os.system('git add README.rst')
     os.system("git commit -m '" + title + "'")
@@ -61,7 +66,7 @@ def slugify(text):
     text = u'_'.join(text.split())
     return text
 
-
+print("scheduling the write pixel task every day at 10:30")
 schedule.every().day.at('10:30').do(write_pixel)
 
 while True:
