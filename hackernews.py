@@ -1,13 +1,12 @@
 import requests
 
-class HackernewsWrapper:
 
+class HackernewsWrapper:
     url = "https://hacker-news.firebaseio.com/"
 
-    def get_top_item_id(self):
+    def get_top_items(self):
         top_list = requests.get(self.url + "v0/topstories.json")
-        return top_list.json()[0]
-
+        return top_list.json()
 
     def get_item(self, id):
         s = self.url + "v0/item/" + str(id) + ".json"
@@ -16,4 +15,4 @@ class HackernewsWrapper:
         return item_dict
 
     def get_top_item(self):
-        return self.get_item(self.get_top_item_id())
+        return self.get_item(self.get_top_item()[0])

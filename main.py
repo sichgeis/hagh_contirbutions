@@ -1,24 +1,35 @@
 import os
 import time
-from random import random
-
-import requests
 from datetime import date
+from random import randrange
 
 import schedule as schedule
 
+from contributionsmap import ContributionsMap
 from hackernews import HackernewsWrapper
 
-non_url_safe = ['"', '#', '$', '%', '&', '+',
-                ',', '/', ':', ';', '=', '?',
-                '@', '[', '\\', ']', '^', '`',
-                '{', '|', '}', '~', "'", '’']
+DAILY_TASKS_TAG = 'daily-tasks'
 
+NON_URL_SAFE_CHARS = ['"', '#', '$', '%', '&', '+',
+                      ',', '/', ':', ';', '=', '?',
+                      '@', '[', '\\', ']', '^', '`',
+                      '{', '|', '}', '~', "'", '’']
+
+contributionsmap = ContributionsMap()
 hackernews = HackernewsWrapper()
 
 
-def write_new_readme():
-    item_dict = hackernews.get_top_item()
+def write_pixel():
+    count = contributionsmap.get_count_by_date(date.today())
+    id_list = hackernews.get_top_items()
+
+    for i in range(count):
+        item_dict = hackernews.get_item(id_list[count - i - 1])
+        write_new_readme(item_dict)
+        time.sleep(randrange(0, 3600))
+
+
+def write_new_readme(item_dict):
     title = item_dict.get("title")
     url = item_dict.get("url")
     text = create_rst_file(title, url)
@@ -43,7 +54,7 @@ def create_rst_file(title, url):
 
 
 def slugify(text):
-    non_safe = [c for c in text if c in non_url_safe]
+    non_safe = [c for c in text if c in NON_URL_SAFE_CHARS]
     if non_safe:
         for c in non_safe:
             slug = text.replace(c, '')
@@ -51,7 +62,7 @@ def slugify(text):
     return text
 
 
-schedule.every().day().at("10:30").do(write_new_readme)
+schedule.every().day.at('10:30').do(write_pixel)
 
 while True:
     schedule.run_pending()
